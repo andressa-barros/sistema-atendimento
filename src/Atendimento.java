@@ -1,4 +1,7 @@
 public class Atendimento extends Elemento{
+    //Classe usada na Fila - representa um cliente aguardando atendimento
+    //A fila usa esses objetos para controlar a ordem de chegada e atendimento
+
     private String id;
     private String cliente;
     private String descricaoAtendimento;
@@ -9,6 +12,7 @@ public class Atendimento extends Elemento{
         this.descricaoAtendimento = descricaoAtendimento;
     }
 
+    //getters e setters
     public String getId(){
         return id;
     }
@@ -33,6 +37,7 @@ public class Atendimento extends Elemento{
         this.descricaoAtendimento = descricaoAtendimento;
     }
 
+    //O método toString() formata o texto mostrado na tela
     @Override
     public String toString(){
         return this.getId() + " - " + this.getCliente() + " - " + this.getDescricaoAtendimento();

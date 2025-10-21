@@ -1,63 +1,68 @@
 public class Fila {
+    //Implementação da Fila (FIFO) → o primeiro cliente a chegar é o primeiro a ser atendido
+
+    //aponta para o primeiro da fila
     private Node inicio;
+    //aponta para o último da fila
     private Node fim;
 
-    public Fila(){
+    public Fila() {
         inicio = null;
         fim = null;
     }
 
-    public boolean vazia(){
+    public boolean vazia() {
         return inicio == null && fim == null;
     }
 
-    public Node getInicio(){
-        return inicio;
-    }
-
-    public void adicionarCliente(Elemento elemento){
+    //método para adicionar novo cliente no fim na fila
+    public void adicionarCliente(Elemento elemento) {
         Node novoNo = new Node(elemento);
-        if (vazia()){
+        if (vazia()) {
             inicio = novoNo;
             fim = novoNo;
-        }
-
-        else{
-            //ultimo aponta para o nó que foi criado
+        } else {
             fim.setProximo(novoNo);
-            //agora o novo nó vai ser o último
             fim = novoNo;
-
         }
     }
 
-    private Elemento remover(){
-        if(vazia()){
+    //método de remover - remove o primeiro
+    private Elemento remover() {
+        if (vazia()) {
             System.out.println("FILA VAZIA!");
             return null;
         }
+
         Elemento elemento = inicio.getElemento();
         inicio = inicio.getProximo();
 
-        if (inicio == null){
+        if (inicio == null) {
             fim = null;
         }
 
         return elemento;
     }
 
-    public void atenderCliente(){
-        System.out.println("Atender cliente: " + remover());
+    //método de atender o cliente - utiliza o método de remover - irá atender o primeiro da fila
+    public void atenderCliente() {
+        Elemento atendido = remover();
+        if (atendido != null) {
+            System.out.println("Cliente atendido: " + atendido);
+        }
     }
-    public void imprimir(){
-        if(vazia()){
+
+    //imprime a fila
+    public void imprimir() {
+        if (vazia()) {
             System.out.println("FILA VAZIA!");
             return;
         }
+
         Node atual = inicio;
-        while(atual != null){
+        while (atual != null) {
             System.out.println("[ " + atual.getElemento() + " ]");
-            if(atual.getProximo() != null){
+            if (atual.getProximo() != null) {
                 System.out.println("->");
             }
             atual = atual.getProximo();

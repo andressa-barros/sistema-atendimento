@@ -1,4 +1,6 @@
 public class Node {
+
+    //O nó irá armazenar o elemento e o ponteiro para o próximo elemento
     private Elemento elemento;
     private Node proximo;
 
@@ -7,6 +9,7 @@ public class Node {
         this.proximo = null;
     }
 
+    //getters e setters
     public Elemento getElemento(){
         return elemento;
     }
