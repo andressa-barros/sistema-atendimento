@@ -1,72 +1,125 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Main {
+
     public static void main(String[] args) {
 
-        //Cria uma pilha
+        // Cria uma pilha para guardar o histórico das solicitações
         Pilha pilha = new Pilha();
-        //método para preencher a pilha com varias solicitações
-        preencherPilha(pilha);
 
-        //Exibe a pilha de solicitações
+        // Cria uma fila para organizar os clientes que vão ser atendidos
+        Fila fila = new Fila();
+
+        // Lê os dados dos arquivos e coloca na pilha e na fila
+        carregarHistorico("src/arquivos/historico.txt", pilha);
+        carregarFila("src/arquivos/filadeatendimento.txt", fila);
+
+        // Mostra tudo que está na pilha (histórico)
         System.out.println("-------------------------");
         System.out.println("HISTÓRICO DE SOLICITAÇÕES");
         System.out.println("-------------------------");
         pilha.imprime();
 
-        //Remove a solicitação mais recente
+        //  Remoção na pilha
         System.out.println("\nRemovendo a solicitação mais recente...");
         pilha.remove();
 
-        //Exibe a pilha de solicitações novamente após a remoção da solicitação
+        // Exibe após a remoção
         System.out.println("\nPilha atualizada:");
         pilha.imprime();
 
-        //Insere nova solicitação na pilha de solicitações e imprime novamente a pilha de solicitações
-        System.out.println("\nInserindo nova solicitação...");
-        pilha.insere(new Historico("REQ011", "Troca de equipamento", "2025-06-23 14:30"));
-        pilha.imprime();
-
-        //Cria uma fila
-        Fila fila = new Fila();
-        //Método para preencher a fila com vários clientes
-        preencherFila(fila);
-
-        //Exibe a fila de clientes
+        // Mostra tudo que está na fila (clientes esperando)
         System.out.println("\n-------------------------");
         System.out.println("FILA DE ATENDIMENTOS");
         System.out.println("-------------------------");
         fila.imprimir();
 
-        //Atende os dois primeiros clientes da fila
+        // Atende dois clientes da fila (para testar a remoção)
         System.out.println("\nAtendendo os primeiros clientes...");
         fila.atenderCliente();
         fila.atenderCliente();
 
-        //Exibe novamente a fila após os atendimentos
+        // Mostra como ficou a fila depois dos atendimentos
         System.out.println("\nFila atualizada:");
         fila.imprimir();
-
-        //Adicionando dois novos clientes no final da fila
-        System.out.println("\nAdicionando novos clientes...");
-        fila.adicionarCliente(new Atendimento("CLI011", "Andressa Barros", "Cancelamento do pedido"));
-        fila.adicionarCliente(new Atendimento("CLI012", "José Silva", "Renovação de assinatura"));
-
-        //Exibe novamente a fila após a adição dos novos clientes
-        System.out.println("\nNova fila:");
-        fila.imprimir();
     }
 
-    // Métodos de preenchimento
-    public static void preencherFila(Fila f) {
-        f.adicionarCliente(new Atendimento("CLI013", "Maria Oliveira", "Solicitação de segunda via de fatura"));
-        f.adicionarCliente(new Atendimento("CLI014", "Carlos Souza", "Atualização de endereço"));
-        f.adicionarCliente(new Atendimento("CLI015", "Ana Pereira", "Cancelamento de serviço"));
-        f.adicionarCliente(new Atendimento("CLI016", "Ricardo Lima", "Reclamação sobre cobrança indevida"));
+    // ---------------------------------------------------------------
+    // Lê o arquivo de histórico e adiciona os dados dentro da pilha
+    // ---------------------------------------------------------------
+    public static void carregarHistorico(String caminho, Pilha pilha) {
+        try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
+            String linha;
+
+            // Lê o arquivo linha por linha
+            while ((linha = br.readLine()) != null) {
+                linha = linha.trim(); // tira espaços extras
+
+                // Procura linhas que começam com "new Elemento"
+                if (linha.startsWith("new Elemento")) {
+
+                    // Divide o texto em partes, separando pelo símbolo de aspas "
+                    String[] partes = linha.split("\"");
+
+                    // Pega os dados que estão entre as aspas
+                    if (partes.length >= 7) {
+                        String id = partes[1];          // Ex: "REQ001"
+                        String descricao = partes[3];   // Ex: "Instalação de software"
+                        String dataHora = partes[5];    // Ex: "2024-08-20 10:30"
+
+                        // Cria um novo histórico com os dados lidos
+                        Historico h = new Historico(id, descricao, dataHora);
+
+                        // Coloca esse histórico dentro da pilha
+                        pilha.insere(h);
+                    }
+                }
+            }
+
+            System.out.println("Histórico carregado com sucesso!");
+
+        } catch (IOException e) {
+            System.out.println("Erro ao ler arquivo de histórico: " + e.getMessage());
+        }
     }
 
-    public static void preencherPilha(Pilha p) {
-        p.insere(new Historico("REQ012", "Instalação de novo roteador", "2025-06-24 09:15"));
-        p.insere(new Historico("REQ013", "Atualização de firmware", "2025-06-25 10:45"));
-        p.insere(new Historico("REQ014", "Reparo em cabo de rede", "2025-06-26 13:20"));
-        p.insere(new Historico("REQ015", "Substituição de modem", "2025-06-27 16:10"));
+    // ---------------------------------------------------------------
+    // Lê o arquivo da fila e adiciona os clientes dentro da fila
+    // ---------------------------------------------------------------
+    public static void carregarFila(String caminho, Fila fila) {
+        try (BufferedReader br = new BufferedReader(new FileReader(caminho))) {
+            String linha;
+
+            // Lê o arquivo linha por linha
+            while ((linha = br.readLine()) != null) {
+                linha = linha.trim();
+
+                // Procura linhas com "new Elemento"
+                if (linha.startsWith("new Elemento")) {
+
+                    // Divide o texto nas partes que estão entre aspas
+                    String[] partes = linha.split("\"");
+
+                    if (partes.length >= 7) {
+                        String id = partes[1];                   // Ex: "CLI001"
+                        String cliente = partes[3];              // Ex: "Maria Silva"
+                        String descricaoAtendimento = partes[5]; // Ex: "Dúvida sobre produto"
+
+                        // Cria um novo atendimento com os dados lidos
+                        Atendimento a = new Atendimento(id, cliente, descricaoAtendimento);
+
+                        // Coloca o cliente no fim da fila
+                        fila.adicionarCliente(a);
+                    }
+                }
+            }
+
+            System.out.println("Fila carregada com sucesso!");
+
+        } catch (IOException e) {
+            System.out.println("Erro ao ler arquivo da fila: " + e.getMessage());
+        }
     }
 }
