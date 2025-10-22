@@ -1,66 +1,86 @@
+# Sistema de Gerenciamento de Atendimento ao Cliente
+### Disciplina: Resolução de Problemas Estruturados em Computação
+### Turma: 4° U
+
+**Docente:** Andrey Cabral Meira
+
+**Discentes:**
+* Fernanda Costa Moraes
+* Andressa de Oliveira Barros
+* Lissa Deguti
+* Melissa Weiss Perussulo
 
 ---
 
-## Estruturas Implementadas
+# Projeto: Sistema de Gerenciamento de Atendimento ao Cliente
 
-### Classe `Elemento`
-Representa um item armazenado em cada estrutura (cliente ou solicitação).
+## Objetivo do Projeto
 
-**Atributos principais:**
-- `String id`
-- `String descricao`
-- Outros atributos como nome, data, hora ou motivo do atendimento.
+O presente trabalho tem como objetivo o desenvolvimento de um sistema de atendimento ao cliente em linguagem Java, utilizando o conceito de **lista encadeada** para implementar duas estruturas de dados: **pilha** e **fila**.
+
 
 ---
 
-### Classe `Node`
-Responsável por ligar os elementos da lista encadeada.
+## Estrutura do Sistema
 
-**Atributos principais:**
-- `Elemento elemento`
-- `Node proximo`
+O projeto foi organizado em classes separadas, cada uma com uma função específica no gerenciamento dos dados e operações.
+
+### 1. Classes Básicas
+
+- **`Elemento.java`**: Representa o conteúdo armazenado em cada estrutura, contendo identificador, descrição e demais informações necessárias.
+- **`Node.java`**: Define o nó da lista encadeada, que armazena um objeto do tipo `Elemento` e uma referência (`proximo`) ao próximo nó.
 
 ---
 
-### Classe `Pilha` (Histórico de Solicitações)
-Implementa uma **pilha** com base em lista encadeada.
+### 2. Pilha – Histórico de Solicitações
+
+A classe **`Pilha.java`** implementa a estrutura de uma pilha segundo o princípio **LIFO** (*Last In, First Out*), onde o último elemento inserido é o primeiro a ser removido.  
+Essa estrutura é responsável por registrar o **histórico de solicitações de serviço**.
 
 **Principais métodos:**
-- `insere(Elemento elemento)` → adiciona uma solicitação no topo.  
-- `remove()` → remove a solicitação mais recente.  
-- `vazia()` → verifica se a pilha está vazia.  
-- `imprime()` → mostra todas as solicitações no histórico.
+- `inserir()` – adiciona um novo elemento no topo da pilha.
+- `remover()` – retira o elemento mais recente.
+- `isEmpty()` – verifica se a pilha está vazia.
+- `exibirHistorico()` – exibe todos os registros armazenados.
+
+A classe **`Historico.java`** foi utilizada para representar os dados específicos de uma solicitação, contendo atributos como código, descrição e data/hora.
 
 ---
 
-### Classe `Fila` (Ordem de Atendimento)
-Implementa uma **fila** com base em lista encadeada.
+### 3. Fila – Ordem de Atendimento
+
+A classe **`Fila.java`** implementa a estrutura de uma fila conforme o princípio **FIFO** (*First In, First Out*), onde o primeiro elemento inserido é o primeiro a ser atendido.  
+Essa estrutura é responsável por controlar a **ordem de atendimento dos clientes**.
 
 **Principais métodos:**
-- `adicionarCliente(Elemento elemento)` → adiciona um cliente ao final da fila.  
-- `atenderCliente()` → remove o cliente que será atendido.  
-- `vazia()` → verifica se a fila está vazia.  
-- `imprime()` → mostra a ordem atual de atendimento.
+- `adicionarCliente()` – adiciona um cliente ao final da fila.
+- `atenderCliente()` – remove o cliente que será atendido (início da fila).
+- `isEmpty()` – verifica se a fila está vazia.
+- `exibirFila()` – exibe a sequência atual de atendimento.
+
+A classe **`Atendimento.java`** representa cada cliente, contendo o identificador, o nome e o motivo do atendimento.
 
 ---
 
-## Funcionamento do Sistema
+## Execução do Programa (`Main.java`)
 
-1. **Leitura dos arquivos:**
-   - `filadeatendimento.txt` → lista inicial de clientes na fila.
-   - `historico.txt` → registros anteriores de solicitações.
+A classe **`Main`** é responsável pela execução geral do sistema, realizando a leitura dos arquivos de texto e a simulação das operações da pilha e da fila.
 
-2. **Operações possíveis:**
-   - Adicionar cliente na fila.  
-   - Atender cliente (removendo-o da fila).  
-   - Registrar uma nova solicitação no histórico (insere).  
-   - Desfazer a última solicitação (remove).  
-   - Exibir a fila atual e o histórico de solicitações.
+**Etapas executadas:**
 
----
+1. **Leitura dos arquivos**
+    - `src/arquivos/historico.txt` – contém o histórico de solicitações anteriores.
+    - `src/arquivos/filadeatendimento.txt` – contém a fila de clientes aguardando atendimento.  
+      Os dados são lidos por meio de `BufferedReader`, tratados e transformados em objetos da classe `Elemento`.
 
-## Execução
 
-### Compilação
-```bash
-javac Main.java
+2. **Simulação da Pilha (Histórico)**
+    - Exibição do histórico completo.
+    - Remoção da última solicitação.
+    - Exibição do histórico atualizado.
+
+
+3. **Simulação da Fila (Atendimento)**
+    - Exibição da lista de clientes na fila.
+    - Atendimento de um ou mais clientes.
+    - Exibição da fila após os atendimentos.
