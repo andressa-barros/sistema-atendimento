@@ -84,3 +84,19 @@ A classe **`Main`** é responsável pela execução geral do sistema, realizando
     - Exibição da lista de clientes na fila.
     - Atendimento de um ou mais clientes.
     - Exibição da fila após os atendimentos.
+---
+
+## Estrutura dos arquivos
+
+```
+- src/
+    - Elemento.java
+    - Node.java
+    - Pilha.java
+    - Fila.java
+    - Historico.java
+    - Atendimento.java
+    - Main.java
+    - arquivos/
+        - historico.txt
+        - filadeatendimento.txt
