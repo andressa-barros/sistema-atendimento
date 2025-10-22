@@ -38,10 +38,10 @@ A classe **`Pilha.java`** implementa a estrutura de uma pilha segundo o princíp
 Essa estrutura é responsável por registrar o **histórico de solicitações de serviço**.
 
 **Principais métodos:**
-- `inserir()` – adiciona um novo elemento no topo da pilha.
-- `remover()` – retira o elemento mais recente.
-- `isEmpty()` – verifica se a pilha está vazia.
-- `exibirHistorico()` – exibe todos os registros armazenados.
+- `insere()` – adiciona um novo elemento no topo da pilha.
+- `remove()` – retira o elemento mais recente.
+- `vazia()` – verifica se a pilha está vazia.
+- `imprime()` – exibe todos os registros armazenados.
 
 A classe **`Historico.java`** foi utilizada para representar os dados específicos de uma solicitação, contendo atributos como código, descrição e data/hora.
 
@@ -55,8 +55,8 @@ Essa estrutura é responsável por controlar a **ordem de atendimento dos client
 **Principais métodos:**
 - `adicionarCliente()` – adiciona um cliente ao final da fila.
 - `atenderCliente()` – remove o cliente que será atendido (início da fila).
-- `isEmpty()` – verifica se a fila está vazia.
-- `exibirFila()` – exibe a sequência atual de atendimento.
+- `vazia()` – verifica se a fila está vazia.
+- `imprimir()` – exibe a sequência atual de atendimento.
 
 A classe **`Atendimento.java`** representa cada cliente, contendo o identificador, o nome e o motivo do atendimento.
 
